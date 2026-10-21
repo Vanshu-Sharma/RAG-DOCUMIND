@@ -19,3 +19,4 @@ ragas
 datasets
 tqdm
 torchvision
+langchain-huggingface
