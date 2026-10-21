@@ -38,8 +38,7 @@ Answer:
             {
                 "role": "user",
                 "content": prompt
-            },
-        max_completion_tokens=800
+            }
         ]
     )
 
