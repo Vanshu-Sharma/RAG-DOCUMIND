@@ -3,6 +3,7 @@ langchain-community
 langchain-chroma
 langchain-text-splitters
 sentence-transformers
+pymupdf
 torch
 transformers
 pypdf
