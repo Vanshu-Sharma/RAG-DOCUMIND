@@ -13,7 +13,7 @@ for _parent in _current.parents:
     if (_parent / "src").is_dir():
         sys.path.insert(0, str(_parent))
         break
-
+from src.core.intent import is_greeting
 from src.core.loader import load_pdf
 from src.core.chunker import get_text_splitter
 from src.core.embeddings import get_embedding_model
@@ -118,25 +118,49 @@ for message in st.session_state.messages:
 
 question = st.chat_input("Ask a question about your document...")
 
-if question:
-    if vectordb is None:
-        st.warning("Please ingest a PDF first.")
-    else:
-        st.session_state.messages.append({"role": "user", "content": question})
-        with st.chat_message("user"):
-            st.markdown(question)
 
+if question:
+    st.session_state.messages.append(
+        {"role": "user", "content": question}
+    )
+
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    # Handle greetings without retrieving document chunks.
+    if is_greeting(question):
+        answer = "Hello! How can I help you with your document?"
+        docs = []
+
+    elif vectordb is None:
+        answer = None
+        docs = []
+        st.warning("Please ingest a PDF first.")
+
+    else:
         with st.chat_message("assistant"):
             with st.spinner("Retrieving and generating answer..."):
-                docs = retrieve_documents(vectordb, question, k=k)
-                context = "\n\n".join(doc.page_content for doc in docs)
-                answer = generate_answer(question, context)
+                docs = retrieve_documents(
+                    vectordb, question, k=k
+                )
 
+                context = "\n\n".join(
+                    doc.page_content for doc in docs
+                )
+
+                answer = generate_answer(
+                    question, context
+                )
+
+    if answer is not None:
+        with st.chat_message("assistant"):
             st.markdown(answer)
 
             if show_chunks and docs:
                 render_sources(docs, key_prefix="latest")
 
-        st.session_state.messages.append(
-            {"role": "assistant", "content": answer, "docs": docs}
-        )
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": answer,
+            "docs": docs,
+        })
