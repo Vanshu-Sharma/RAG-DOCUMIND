@@ -1,4 +1,16 @@
+def rag_pipeline(question):
+    print("RAG PIPELINE VERSION: greeting-check-v1")
+    print("QUESTION:", repr(question))
+    print("IS GREETING:", is_greeting(question))
 
+    if is_greeting(question):
+        print("Skipping retrieval for greeting")
+        return (
+            "Hello! How can I help you with your document?",
+            []
+        )
+
+    # Keep the rest of your existing pipeline below
 from src.core.memory import get_chat_history
 from src.core.embeddings import get_embedding_model
 from src.core.vectorstore import load_vectorstore
