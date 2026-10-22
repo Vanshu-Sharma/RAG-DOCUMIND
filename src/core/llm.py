@@ -41,7 +41,7 @@ Answer:
             }
         ]
         max_tokens=700,
-        temperature=0.2
+        temperature=0.2,
     )
 
     return response.choices[0].message.content
