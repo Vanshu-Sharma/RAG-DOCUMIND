@@ -2,19 +2,9 @@
 import re
 
 GREETINGS = {
-    "hi",
-    "hii",
-    "hiii",
-    "hello",
-    "hey",
-    "good morning",
-    "good afternoon",
-    "good evening",
-    "how are you",
-    "thanks",
-    "thank you",
-    "bye",
-    "goodbye",
+    "hi", "hii", "hiii", "hello", "hey",
+    "good morning", "good afternoon", "good evening",
+    "how are you", "thanks", "thank you", "bye", "goodbye",
 }
 
 
